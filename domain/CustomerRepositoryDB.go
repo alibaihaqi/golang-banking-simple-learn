@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/alibaihaqi/banking/errs"
+	"github.com/alibaihaqi/banking/logger"
 	_ "github.com/go-sql-driver/mysql"
-	"log"
 	"time"
 )
 
@@ -22,9 +22,10 @@ func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError) {
 	err := r.Scan(&c.Id, &c.Name, &c.City, &c.Zipcode, &c.DateOfBirth, &c.Status)
 	if err != nil {
 		if err == sql.ErrNoRows {
+			logger.Error("Error while scanning customer " + err.Error())
 			return nil, errs.NewNotFoundError("Customer is not found")
 		} else {
-			log.Printf("Error while scanning customer table:", err.Error())
+			logger.Error("Error while scanning customer table:" + err.Error())
 			return nil, errs.NewInternalSystemError("Unexpected Database Error!")
 		}
 	}
@@ -48,7 +49,7 @@ func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError
 
 	rows, err := d.client.Query(findAllSql)
 	if err != nil {
-		log.Printf("Error while querying customer table:", err.Error())
+		logger.Error("Error while querying customer table:" + err.Error())
 		return nil, errs.NewInternalSystemError("Unexpected Database Error!")
 	}
 
@@ -57,7 +58,7 @@ func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError
 		var c Customer
 		err := rows.Scan(&c.Id, &c.Name, &c.City, &c.Zipcode, &c.DateOfBirth, &c.Status)
 		if err != nil {
-			log.Printf("Error while scanning customer table:", err.Error())
+			logger.Error("Error while scanning customer table:" + err.Error())
 			return nil, errs.NewInternalSystemError(err.Error())
 		}
 		customers = append(customers, c)
