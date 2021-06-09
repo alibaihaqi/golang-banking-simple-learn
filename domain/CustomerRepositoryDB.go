@@ -40,7 +40,7 @@ func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError
 		findAllSql := "select customer_id, name, city, zipcode, date_of_birth, status from customers"
 		err = d.client.Select(&customers, findAllSql)
 	} else {
-		findAllSql := "select customer_id, name, city, zipcode, date_of_birth, status from customers"
+		findAllSql := "select customer_id, name, city, zipcode, date_of_birth, status from customers where status = ?"
 		err = d.client.Select(&customers, findAllSql, status)
 	}
 
