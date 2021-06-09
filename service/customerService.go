@@ -15,7 +15,15 @@ type DefaultCustomerService struct {
 }
 
 func (s DefaultCustomerService) GetAllCustomer(status string) ([]domain.Customer, *errs.AppError) {
-	return s.repo.FindAll(status)
+	var st string
+	if status == "active" {
+		st = "1"
+	} else if status == "inactive" {
+		st = "0"
+	} else {
+		st = ""
+	}
+	return s.repo.FindAll(st)
 }
 
 func (s DefaultCustomerService) GetCustomer(id string) (*domain.Customer, *errs.AppError) {
