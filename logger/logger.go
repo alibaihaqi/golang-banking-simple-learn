@@ -35,3 +35,7 @@ func Debug(m string, fields ...zap.Field) {
 func Error(m string, fields ...zap.Field) {
 	log.Error(m, fields...)
 }
+
+func Fatal(m string, fields ...zap.Field) {
+	log.Fatal(m, fields...)
+}
