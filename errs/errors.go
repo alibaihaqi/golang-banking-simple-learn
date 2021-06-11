@@ -7,7 +7,7 @@ type AppError struct {
 	Message string `json:"message" xml:"message"`
 }
 
-func (e AppError) AsMessgae() *AppError {
+func (e AppError) AsMessage() *AppError {
 	return &AppError{
 		Message: e.Message,
 	}
@@ -24,5 +24,12 @@ func NewInternalSystemError(m string) *AppError {
 	return &AppError{
 		Message: m,
 		Code:    http.StatusInternalServerError,
+	}
+}
+
+func NewValidationError(m string) *AppError {
+	return &AppError{
+		Message: m,
+		Code:    http.StatusUnprocessableEntity,
 	}
 }

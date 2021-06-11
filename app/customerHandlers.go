@@ -2,7 +2,6 @@ package app
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/alibaihaqi/banking/service"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -18,7 +17,7 @@ func (ch *CustomerHandlers) getAllCustomers(w http.ResponseWriter, r *http.Reque
 	customers, err := ch.service.GetAllCustomer(p)
 
 	if err != nil {
-		writeResponse(w, err.Code, err.AsMessgae())
+		writeResponse(w, err.Code, err.AsMessage())
 	} else {
 		writeResponse(w, http.StatusOK, customers)
 	}
@@ -27,10 +26,9 @@ func (ch *CustomerHandlers) getAllCustomers(w http.ResponseWriter, r *http.Reque
 func (ch *CustomerHandlers) getCustomerById(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	customer, err := ch.service.GetCustomer(vars["customer_id"])
-	fmt.Println(vars["customer_id"], customer)
 
 	if err != nil {
-		writeResponse(w, err.Code, err.AsMessgae())
+		writeResponse(w, err.Code, err.AsMessage())
 	} else {
 		writeResponse(w, http.StatusOK, customer)
 	}
